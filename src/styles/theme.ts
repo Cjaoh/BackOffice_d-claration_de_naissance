@@ -1,0 +1,77 @@
+export const theme = {
+  colors: {
+    primary: '#4CAF9E',
+    primaryDark: '#26A69A',
+    primaryLight: '#81C784',
+    secondary: '#FF9800',
+    accent: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FF9800',
+    error: '#F44336',
+    info: '#2196F3',
+    background: '#F5F7FA',
+    surface: '#FFFFFF',
+    text: {
+      primary: '#2C3E50',
+      secondary: '#7F8C8D',
+      disabled: '#BDC3C7',
+      inverse: '#FFFFFF',
+    },
+    border: '#E0E6ED',
+    shadow: 'rgba(0, 0, 0, 0.1)',
+    gradient: {
+      primary: 'linear-gradient(135deg, #4CAF9E 0%, #26A69A 100%)',
+      secondary: 'linear-gradient(135deg, #FF9800 0%, #F57C00 100%)',
+      accent: 'linear-gradient(135deg, #2196F3 0%, #1976D2 100%)',
+    },
+  },
+  spacing: {
+    xs: '4px',
+    sm: '8px',
+    md: '16px',
+    lg: '24px',
+    xl: '32px',
+    xxl: '48px',
+  },
+  borderRadius: {
+    sm: '4px',
+    md: '8px',
+    lg: '12px',
+    xl: '16px',
+    full: '50px',
+  },
+  shadows: {
+    sm: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    md: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    lg: '0 8px 16px rgba(0, 0, 0, 0.1)',
+    xl: '0 16px 32px rgba(0, 0, 0, 0.1)',
+  },
+  typography: {
+    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    sizes: {
+      xs: '12px',
+      sm: '14px',
+      md: '16px',
+      lg: '18px',
+      xl: '20px',
+      '2xl': '24px',
+      '3xl': '30px',
+      '4xl': '36px',
+    },
+    weights: {
+      normal: 400,
+      medium: 500,
+      semibold: 600,
+      bold: 700,
+    },
+  },
+  breakpoints: {
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px',
+    '2xl': '1536px',
+  },
+};
+
+export type Theme = typeof theme; 
