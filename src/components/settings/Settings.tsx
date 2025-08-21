@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
 import Card from '../ui/Card';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
@@ -26,7 +25,6 @@ interface SettingsState {
 }
 
 const Settings: React.FC = () => {
-  const { user: authUser } = useAuth();
   const [settings, setSettings] = useState<SettingsState>({
     general: {
       appName: 'BackOffice Déclaration',
@@ -102,7 +100,7 @@ const Settings: React.FC = () => {
     return () => {
       mediaQuery.removeEventListener('change', handleChange);
     };
-  }, [settings.appearance.theme]);
+  }, [settings.appearance.theme, settings.appearance]);
 
   const handleSave = async () => {
     setLoading(true);
@@ -125,7 +123,7 @@ const Settings: React.FC = () => {
     }
   };
 
-  const handleInputChange = (section: keyof SettingsState, field: string, value: any) => {
+  const handleInputChange = (section: keyof SettingsState, field: string, value: string | boolean | number) => {
     setSettings(prev => ({
       ...prev,
       [section]: {

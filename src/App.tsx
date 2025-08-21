@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { useAuth } from "./contexts/AuthContext";
+import AuthProvider from "./contexts/AuthProvider";
 import Dashboard from "./components/dashboard/Dashboard";
 import DeclarationForm from "./components/DeclarationForm";
 import DeclarationsList from "./components/DeclarationsList";

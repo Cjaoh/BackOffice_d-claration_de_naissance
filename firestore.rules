@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow authenticated users to read and write to declarations collection
+    match /declarations/{document} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Allow authenticated users to read and write to users collection
+    match /users/{document} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Allow public read access to settings (if needed)
+    match /settings/{document} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}

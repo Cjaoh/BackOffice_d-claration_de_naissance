@@ -46,7 +46,7 @@ interface DeclarationFormData {
 }
 
 interface DeclarationFormProps {
-  declaration?: Partial<DeclarationFormData>;
+  declaration?: Partial<DeclarationFormData> & { id?: string };
   onClose: () => void;
   onSave: () => void;
 }
@@ -171,7 +171,7 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
         dateDeclaration: new Date().toISOString(),
       };
       if (declaration && 'id' in declaration) {
-        await updateDoc(doc(db, 'declarations', (declaration as any).id), dataToSave);
+        await updateDoc(doc(db, 'declarations', declaration.id!), dataToSave);
       } else {
         await addDoc(collection(db, 'declarations'), dataToSave);
       }

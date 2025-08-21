@@ -115,7 +115,7 @@ export const userService = {
   updateUser: async (uid: string, updates: Partial<User>): Promise<void> => {
     try {
       const userRef = doc(db, 'users', uid);
-      const updateData: any = { ...updates };
+      const updateData: Partial<User> & { lastLogin?: Date | null; createdAt?: Date } = { ...updates };
       if (updates.lastLogin) {
         updateData.lastLogin = updates.lastLogin;
       }
