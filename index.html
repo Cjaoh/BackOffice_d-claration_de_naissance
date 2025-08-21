@@ -6,7 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    // Load theme from localStorage or system preference
+    const savedSettings = localStorage.getItem('appSettings');
+    let theme = 'light';
+    
+    if (savedSettings) {
+      try {
+        const settings = JSON.parse(savedSettings);
+        theme = settings.appearance?.theme || 'light';
+      } catch (e) {
+        console.error('Error parsing settings:', e);
+      }
+    }
+    
+    // Apply theme
+    if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+    
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {

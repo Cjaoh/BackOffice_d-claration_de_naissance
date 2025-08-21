@@ -1,5 +1,4 @@
 import React from 'react';
-import { theme } from '../../styles/theme';
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -34,28 +33,30 @@ const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = {
     primary: `
-      bg-gradient-to-r from-[${theme.colors.primary}] to-[${theme.colors.primaryDark}]
+      bg-gradient-to-r from-[#4CAF9E] to-[#26A69A]
       text-white hover:shadow-lg transform hover:scale-105
-      focus:ring-[${theme.colors.primary}]
+      focus:ring-[#4CAF9E]
     `,
     secondary: `
-      bg-gradient-to-r from-[${theme.colors.secondary}] to-[${theme.colors.warning}]
+      bg-gradient-to-r from-[#FF9800] to-[#FF9800]
       text-white hover:shadow-lg transform hover:scale-105
-      focus:ring-[${theme.colors.secondary}]
+      focus:ring-[#FF9800]
     `,
     outline: `
-      border-2 border-[${theme.colors.primary}] text-[${theme.colors.primary}]
-      hover:bg-[${theme.colors.primary}] hover:text-white
-      focus:ring-[${theme.colors.primary}]
+      border-2 border-[#4CAF9E] text-[#4CAF9E] dark:text-[#4CAF9E]
+      hover:bg-[#4CAF9E] hover:text-white
+      focus:ring-[#4CAF9E]
+      dark:border-[#4CAF9E] dark:hover:bg-[#4CAF9E] dark:hover:text-white
     `,
     ghost: `
-      text-[${theme.colors.primary}] hover:bg-[${theme.colors.primary}] hover:bg-opacity-10
-      focus:ring-[${theme.colors.primary}]
+      text-[#4CAF9E] hover:bg-[#4CAF9E] hover:bg-opacity-10
+      focus:ring-[#4CAF9E]
+      dark:text-[#4CAF9E]
     `,
     danger: `
-      bg-gradient-to-r from-[${theme.colors.error}] to-[${theme.colors.error}]
+      bg-gradient-to-r from-[#F44336] to-[#F44336]
       text-white hover:shadow-lg transform hover:scale-105
-      focus:ring-[${theme.colors.error}]
+      focus:ring-[#F44336]
     `,
   };
 
@@ -78,7 +79,7 @@ const Button: React.FC<ButtonProps> = ({
     >
       {loading && (
         <svg
-          className="animate-spin -ml-1 mr-2 h-4 w-4"
+          className="animate-spin -ml-1 mr-2 h-4 w-4 text-current"
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -104,4 +105,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button; 
+export default Button;

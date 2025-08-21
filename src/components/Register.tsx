@@ -25,7 +25,7 @@ const Register: React.FC = () => {
     try {
       await createUserWithEmailAndPassword(auth, email.trim(), password);
       alert("Compte créé avec succès !");
-      navigate("/Login");
+      navigate("/login");
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : "Erreur lors de la création du compte";
       setError(errorMessage);
@@ -107,7 +107,7 @@ const Register: React.FC = () => {
             <p className="text-sm text-gray-600">
               Pas encore de compte ?{" "}
               <button
-                onClick={() => navigate("/Login")}
+                onClick={() => navigate("/login")}
                 className="text-[#4CAF9E] hover:text-[#26A69A] font-medium"
               >
                 J'ai déjà un compte

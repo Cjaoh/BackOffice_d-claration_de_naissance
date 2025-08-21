@@ -170,8 +170,8 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
         parentsMaries: form.parentsMaries ? 1 : 0,
         dateDeclaration: new Date().toISOString(),
       };
-      if (declaration?.id) {
-        await updateDoc(doc(db, 'declarations', declaration.id), dataToSave);
+      if (declaration && 'id' in declaration) {
+        await updateDoc(doc(db, 'declarations', (declaration as any).id), dataToSave);
       } else {
         await addDoc(collection(db, 'declarations'), dataToSave);
       }
@@ -418,7 +418,7 @@ const MaritalStatusField: React.FC<MaritalStatusFieldProps> = ({ parentsMaries, 
           name="parentsMaries"
           value="true"
           checked={parentsMaries === true}
-          onChange={() => onChange({ target: { name: 'parentsMaries', value: 'true', type: 'checkbox', checked: true } } as React.ChangeEvent<HTMLInputElement>)}
+          onChange={(e) => onChange(e as unknown as React.ChangeEvent<HTMLInputElement>)}
         />
         Mariés
       </label>
@@ -428,7 +428,7 @@ const MaritalStatusField: React.FC<MaritalStatusFieldProps> = ({ parentsMaries, 
           name="parentsMaries"
           value="false"
           checked={parentsMaries === false}
-          onChange={() => onChange({ target: { name: 'parentsMaries', value: 'false', type: 'checkbox', checked: false } } as React.ChangeEvent<HTMLInputElement>)}
+          onChange={(e) => onChange(e as unknown as React.ChangeEvent<HTMLInputElement>)}
         />
         Non mariés
       </label>

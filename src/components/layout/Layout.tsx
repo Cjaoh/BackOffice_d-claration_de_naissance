@@ -11,7 +11,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} />
       
       <div className="lg:pl-64">
@@ -27,4 +27,4 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
   );
 };
 
-export default Layout; 
+export default Layout;

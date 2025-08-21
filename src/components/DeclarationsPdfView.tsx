@@ -62,7 +62,51 @@ const DeclarationsPdfView: React.FC = () => {
       (snapshot) => {
         const data: Declaration[] = [];
         snapshot.forEach((doc) => {
-          data.push({ id: doc.id, ...doc.data() } as Declaration);
+          const docData = doc.data();
+          data.push({
+            id: doc.id,
+            nom: docData.nom,
+            prenom: docData.prenom,
+            dateNaissance: docData.dateNaissance,
+            heureNaissance: docData.heureNaissance,
+            lieuNaissance: docData.lieuNaissance,
+            sexe: docData.sexe,
+            nomPere: docData.nomPere,
+            prenomPere: docData.prenomPere,
+            dateNaissancePere: docData.dateNaissancePere,
+            lieuNaissancePere: docData.lieuNaissancePere,
+            professionPere: docData.professionPere,
+            nationalitePere: docData.nationalitePere,
+            adressePere: docData.adressePere,
+            pieceIdPere: docData.pieceIdPere,
+            statutPere: docData.statutPere,
+            nomMere: docData.nomMere,
+            prenomMere: docData.prenomMere,
+            nomJeuneFilleMere: docData.nomJeuneFilleMere,
+            dateNaissanceMere: docData.dateNaissanceMere,
+            lieuNaissanceMere: docData.lieuNaissanceMere,
+            professionMere: docData.professionMere,
+            nationaliteMere: docData.nationaliteMere,
+            adresseMere: docData.adresseMere,
+            pieceIdMere: docData.pieceIdMere,
+            statutMere: docData.statutMere,
+            statutMarital: docData.statutMarital,
+            parentsMaries: docData.parentsMaries,
+            dateMariageParents: docData.dateMariageParents,
+            lieuMariageParents: docData.lieuMariageParents,
+            nomDeclarant: docData.nomDeclarant,
+            prenomDeclarant: docData.prenomDeclarant,
+            adresseDeclarant: docData.adresseDeclarant,
+            lienDeclarant: docData.lienDeclarant,
+            pieceIdDeclarant: docData.pieceIdDeclarant,
+            certificatAccouchement: docData.certificatAccouchement,
+            livretFamille: docData.livretFamille,
+            acteNaissPere: docData.acteNaissPere,
+            acteNaissMere: docData.acteNaissMere,
+            acteReconnaissance: docData.acteReconnaissance,
+            certificatNationalite: docData.certificatNationalite,
+            dateDeclaration: docData.dateDeclaration
+          } as Declaration);
         });
         setDeclarations(data);
         setLoading(false);
@@ -91,7 +135,7 @@ const DeclarationsPdfView: React.FC = () => {
         {declarations.map((decl) => (
           <div key={decl.id} className="flex items-center justify-between border p-4 rounded shadow-sm">
             <div>
-              <strong>{decl.nom} {decl.prenom}</strong> - {new Date(decl.dateNaissance).toLocaleDateString()}
+              <strong>{decl.nom} {decl.prenom}</strong> - {decl.dateNaissance ? new Date(decl.dateNaissance).toLocaleDateString() : 'Date inconnue'}
             </div>
             <div className="flex gap-2 items-center">
               <button

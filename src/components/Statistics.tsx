@@ -55,7 +55,8 @@ const Statistics: React.FC = () => {
   const monthlyMale = declarations
     .filter(d => d.sexe === "M" && d.dateNaissance)
     .reduce<MonthlyCounts>((acc, d) => {
-      const mois = d.dateNaissance!.slice(0, 7);
+      if (!d.dateNaissance) return acc;
+      const mois = d.dateNaissance.slice(0, 7);
       acc[mois] = (acc[mois] || 0) + 1;
       return acc;
     }, {});
@@ -63,7 +64,8 @@ const Statistics: React.FC = () => {
   const monthlyFemale = declarations
     .filter(d => d.sexe === "F" && d.dateNaissance)
     .reduce<MonthlyCounts>((acc, d) => {
-      const mois = d.dateNaissance!.slice(0, 7);
+      if (!d.dateNaissance) return acc;
+      const mois = d.dateNaissance.slice(0, 7);
       acc[mois] = (acc[mois] || 0) + 1;
       return acc;
     }, {});

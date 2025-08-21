@@ -9,6 +9,8 @@ import Statistics from "./components/Statistics";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Layout from "./components/layout/Layout";
+import Settings from "./components/settings/Settings";
+import UserManagement from "./components/users/UserManagement";
 // import type { Declaration } from "./services/declarationService";
 // import type { DeclarationFormData } from "./components/DeclarationForm";
 
@@ -85,14 +87,7 @@ const AppContent: React.FC = () => {
         <Route path="/users" element={
           <ProtectedRoute>
             <Layout title="Gestion des utilisateurs">
-              <div className="text-center py-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  Gestion des utilisateurs
-                </h2>
-                <p className="text-gray-600">
-                  Cette fonctionnalité sera bientôt disponible.
-                </p>
-              </div>
+              <UserManagement />
             </Layout>
           </ProtectedRoute>
         } />
@@ -100,14 +95,7 @@ const AppContent: React.FC = () => {
         <Route path="/settings" element={
           <ProtectedRoute>
             <Layout title="Paramètres">
-              <div className="text-center py-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                  Paramètres
-                </h2>
-                <p className="text-gray-600">
-                  Cette fonctionnalité sera bientôt disponible.
-                </p>
-              </div>
+              <Settings />
             </Layout>
           </ProtectedRoute>
         } />
