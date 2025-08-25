@@ -24,46 +24,42 @@ const Button: React.FC<ButtonProps> = ({
   className = '',
 }) => {
   const baseStyles = `
-    inline-flex items-center justify-center
-    font-medium rounded-lg transition-all duration-200
-    focus:outline-none focus:ring-2 focus:ring-offset-2
-    disabled:opacity-50 disabled:cursor-not-allowed
+    inline-flex items-center justify-center relative overflow-hidden group
+    font-medium rounded-2xl transition-all duration-300
+    focus:outline-none focus:ring-2 focus:ring-teal-400/50
+    disabled:opacity-50 disabled:cursor-not-allowed backdrop-blur-sm
     ${className}
   `;
 
   const variantStyles = {
     primary: `
       bg-gradient-to-r from-[#4CAF9E] to-[#26A69A]
-      text-white hover:shadow-lg transform hover:scale-105
-      focus:ring-[#4CAF9E]
+      text-white shadow-lg hover:shadow-2xl hover:-translate-y-0.5
+      before:absolute before:inset-0 before:bg-gradient-to-r before:from-teal-600 before:to-green-600 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity before:duration-300
     `,
     secondary: `
-      bg-gradient-to-r from-[#FF9800] to-[#FF9800]
-      text-white hover:shadow-lg transform hover:scale-105
-      focus:ring-[#FF9800]
+      bg-gradient-to-r from-[#FF9800] to-[#F57C00]
+      text-white shadow-lg hover:shadow-2xl hover:-translate-y-0.5
+      before:absolute before:inset-0 before:bg-gradient-to-r before:from-orange-600 before:to-amber-600 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity before:duration-300
     `,
     outline: `
-      border-2 border-[#4CAF9E] text-[#4CAF9E] dark:text-[#4CAF9E]
-      hover:bg-[#4CAF9E] hover:text-white
-      focus:ring-[#4CAF9E]
-      dark:border-[#4CAF9E] dark:hover:bg-[#4CAF9E] dark:hover:text-white
+      border border-white/20 text-white/90 bg-white/5
+      hover:bg-white/10 hover:text-white
     `,
     ghost: `
-      text-[#4CAF9E] hover:bg-[#4CAF9E] hover:bg-opacity-10
-      focus:ring-[#4CAF9E]
-      dark:text-[#4CAF9E]
+      text-teal-300 hover:text-white hover:bg-white/10
     `,
     danger: `
-      bg-gradient-to-r from-[#F44336] to-[#F44336]
-      text-white hover:shadow-lg transform hover:scale-105
-      focus:ring-[#F44336]
+      bg-gradient-to-r from-[#F44336] to-[#E53935]
+      text-white shadow-lg hover:shadow-2xl hover:-translate-y-0.5
+      before:absolute before:inset-0 before:bg-gradient-to-r before:from-rose-600 before:to-red-600 before:opacity-0 group-hover:before:opacity-100 before:transition-opacity before:duration-300
     `,
   };
 
   const sizeStyles = {
     sm: 'px-3 py-2 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
+    md: 'px-4 py-3 text-base',
+    lg: 'px-6 py-4 text-lg',
   };
 
   return (
@@ -99,10 +95,12 @@ const Button: React.FC<ButtonProps> = ({
           />
         </svg>
       )}
-      {icon && !loading && <span className="mr-2">{icon}</span>}
-      {children}
+      <span className="relative z-10 flex items-center">
+        {icon && !loading && <span className="mr-2">{icon}</span>}
+        {children}
+      </span>
     </button>
   );
 };
 
-export default Button;
+export default React.memo(Button);

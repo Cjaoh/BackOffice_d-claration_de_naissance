@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   HomeIcon, 
@@ -23,7 +23,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const menuItems = [
+  const menuItems = useMemo(() => [
     {
       name: 'Tableau de bord',
       icon: HomeIcon,
@@ -66,7 +66,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
       path: '/settings',
       color: 'from-gray-500 to-gray-600'
     }
-  ];
+  ], []);
 
   const handleLogout = async () => {
     try {
@@ -88,19 +88,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
       )}
 
       <div className={`
-        fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-xl transform transition-transform duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-50 w-64 backdrop-blur-2xl bg-white/10 border-r border-white/10 shadow-2xl transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
-        <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between h-16 px-6 border-b border-white/10">
           <div className="flex items-center space-x-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-[#4CAF9E] to-[#26A69A] flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-r from-[#4CAF9E] to-[#26A69A] flex items-center justify-center shadow-lg">
               <DocumentTextIcon className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white">BackOffice</h1>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-teal-300 to-green-300 bg-clip-text text-transparent">BackOffice</h1>
           </div>
           <button
             onClick={onToggle}
-            className="lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-gray-100 dark:hover:bg-gray-700"
+            className="lg:hidden p-2 rounded-md text-gray-200 hover:text-teal-300 hover:bg-white/10"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -119,15 +119,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
                   key={item.name}
                   to={item.path}
                   className={`
-                    flex items-center space-x-3 px-3 py-3 rounded-lg transition-all duration-200
+                    flex items-center space-x-3 px-3 py-3 rounded-xl transition-all duration-200
                     ${isActive 
                       ? 'bg-gradient-to-r text-white shadow-lg' 
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+                      : 'text-gray-200 hover:bg-white/10 hover:text-white'
                     }
                     ${isActive ? item.color : ''}
                   `}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-gray-300'}`} />
                   <span className="font-medium">{item.name}</span>
                 </Link>
               );
@@ -135,10 +135,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
           </div>
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
           <button 
             onClick={handleLogout}
-            className="flex items-center space-x-3 w-full px-3 py-3 rounded-lg text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+            className="flex items-center space-x-3 w-full px-3 py-3 rounded-xl text-gray-200 hover:bg-white/10 hover:text-white transition-all duration-200"
           >
             <ArrowRightOnRectangleIcon className="w-5 h-5" />
             <span className="font-medium">Déconnexion</span>
@@ -149,4 +149,4 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onToggle }) => {
   );
 };
 
-export default Sidebar;
+export default memo(Sidebar);

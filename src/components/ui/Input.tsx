@@ -32,13 +32,13 @@ const Input: React.FC<InputProps> = ({
   ...restProps
 }) => {
   const baseStyles = `
-    w-full px-4 py-3 rounded-lg border transition-all duration-200
-    focus:outline-none focus:ring-2 focus:ring-offset-2
+    w-full px-4 py-4 rounded-2xl border transition-all duration-300
+    focus:outline-none focus:ring-2
     disabled:opacity-50 disabled:cursor-not-allowed
-    dark:bg-gray-700 dark:text-white dark:border-gray-600
+    bg-white/10 text-white placeholder-gray-300 border-white/10 backdrop-blur-sm
     ${error 
-      ? 'border-red-300 focus:ring-red-500 focus:border-red-500 dark:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500' 
-      : 'border-gray-300 focus:ring-[#4CAF9E] focus:border-[#4CAF9E] dark:border-gray-600 dark:focus:ring-[#4CAF9E] dark:focus:border-[#4CAF9E]'
+      ? 'focus:ring-red-500 focus:border-red-500' 
+      : 'focus:ring-teal-400/50 focus:border-teal-400/50'
     }
     ${className}
   `;
@@ -46,7 +46,7 @@ const Input: React.FC<InputProps> = ({
   return (
     <div className="space-y-2">
       {label && (
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label className="block text-sm font-medium text-white/90">
           {label}
           {required && <span className="text-red-500 ml-1">*</span>}
         </label>
@@ -54,7 +54,7 @@ const Input: React.FC<InputProps> = ({
       <div className="relative">
         {icon && (
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <div className="text-gray-400 dark:text-gray-300">{icon}</div>
+            <div className="text-gray-300">{icon}</div>
           </div>
         )}
         <input
@@ -85,4 +85,4 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input;
+export default React.memo(Input);
