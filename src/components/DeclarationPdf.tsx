@@ -49,12 +49,35 @@ interface DeclarationPdfProps {
 }
 
 const styles = StyleSheet.create({
-  page: { padding: 30, fontSize: 12, fontFamily: 'Helvetica' },
-  section: { marginBottom: 12 },
-  heading: { fontSize: 16, marginBottom: 10, fontWeight: 'bold', color: '#008080' },
-  label: { fontWeight: 'bold' },
-  value: { marginBottom: 4 },
-  smallText: { fontSize: 10, color: 'gray' },
+  page: {
+    padding: 30,
+    fontSize: 12,
+    fontFamily: 'Helvetica',
+    backgroundColor: '#0f172a', // slate-950 dark background
+    color: '#cbd5e1' // slate-300 light text
+  },
+  section: {
+    marginBottom: 16
+  },
+  heading: {
+    fontSize: 18,
+    marginBottom: 10,
+    fontWeight: 'bold',
+    color: '#22d3ee' // cyan-400
+  },
+  label: {
+    fontWeight: 'bold',
+    color: '#38bdf8', // cyan-400 lighter
+    marginBottom: 4
+  },
+  value: {
+    marginBottom: 6,
+    color: '#e0f2fe' // cyan-100
+  },
+  smallText: {
+    fontSize: 10,
+    color: '#94a3b8' // slate-400
+  }
 });
 
 const DeclarationPdf: React.FC<DeclarationPdfProps> = ({ declaration }) => {
@@ -68,7 +91,7 @@ const DeclarationPdf: React.FC<DeclarationPdfProps> = ({ declaration }) => {
 
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page size="A4" style={styles.page} wrap={false}>
         <View style={styles.section}>
           <Text style={styles.heading}>Déclaration de naissance</Text>
         </View>

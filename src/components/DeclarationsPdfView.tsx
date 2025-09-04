@@ -120,26 +120,35 @@ const DeclarationsPdfView: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  if (loading) return <p>Chargement des déclarations...</p>;
-  if (error) return <p className="text-red-600">{error}</p>;
+  if (loading)
+    return <p className="text-cyan-400 text-center p-4 animate-pulse">Chargement des déclarations...</p>;
+  if (error)
+    return <p className="text-red-500 text-center p-4 font-semibold">{error}</p>;
 
   const selectedDeclaration = declarations.find((d) => d.id === selectedDeclId) ?? null;
 
   return (
-    <div className="max-w-7xl mx-auto p-6 bg-white rounded shadow">
-      <h1 className="text-3xl font-bold mb-6 text-teal-800">Visualisation & Téléchargement des déclarations</h1>
+    <div className="max-w-7xl mx-auto p-6 bg-slate-950 rounded-3xl shadow-lg text-white">
+      <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-300 mb-6 select-none">
+        Visualisation & Téléchargement des déclarations
+      </h1>
 
-      {/* Liste sommaire avec bouton télécharger & prévisualiser */}
       <div className="mb-8 space-y-4">
-        {declarations.length === 0 && <p>Aucune déclaration trouvée.</p>}
+        {declarations.length === 0 && (
+          <p className="text-cyan-300 text-center">Aucune déclaration trouvée.</p>
+        )}
         {declarations.map((decl) => (
-          <div key={decl.id} className="flex items-center justify-between border p-4 rounded shadow-sm">
-            <div>
-              <strong>{decl.nom} {decl.prenom}</strong> - {decl.dateNaissance ? new Date(decl.dateNaissance).toLocaleDateString() : 'Date inconnue'}
+          <div
+            key={decl.id}
+            className="flex items-center justify-between border border-cyan-700 rounded-lg p-4 shadow-sm bg-slate-900"
+          >
+            <div className="font-semibold text-cyan-300">
+              {decl.nom} {decl.prenom} -{' '}
+              {decl.dateNaissance ? new Date(decl.dateNaissance).toLocaleDateString() : 'Date inconnue'}
             </div>
             <div className="flex gap-2 items-center">
               <button
-                className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                className="px-3 py-1 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white rounded-xl shadow transition focus:outline-none focus:ring-2 focus:ring-cyan-400"
                 onClick={() => setSelectedDeclId(decl.id)}
               >
                 Prévisualiser
@@ -148,7 +157,7 @@ const DeclarationsPdfView: React.FC = () => {
               <PDFDownloadLink
                 document={<DeclarationPdf declaration={decl} />}
                 fileName={`declaration_${decl.nom}_${decl.prenom}.pdf`}
-                className="px-3 py-1 bg-teal-600 text-white rounded hover:bg-teal-700 transition"
+                className="px-3 py-1 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white rounded-xl shadow transition flex items-center justify-center"
               >
                 {({ loading }) => (loading ? 'Préparation...' : 'Télécharger')}
               </PDFDownloadLink>
@@ -157,20 +166,19 @@ const DeclarationsPdfView: React.FC = () => {
         ))}
       </div>
 
-      {/* Prévisualisation PDF */}
       {selectedDeclaration && (
         <div>
-          <h2 className="text-xl font-semibold mb-2 text-teal-700">
+          <h2 className="text-xl font-semibold mb-2 text-teal-400 select-none">
             Prévisualisation : {selectedDeclaration.nom} {selectedDeclaration.prenom}
           </h2>
-          <div style={{ height: '600px', border: '1px solid #ccc' }}>
+          <div style={{ height: 600, border: '1px solid #334155', borderRadius: '0.75rem', overflow: 'hidden' }}>
             <PDFViewer width="100%" height="600" showToolbar>
               <DeclarationPdf declaration={selectedDeclaration} />
             </PDFViewer>
           </div>
           <button
             onClick={() => setSelectedDeclId(null)}
-            className="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition"
+            className="mt-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg shadow transition focus:outline-none focus:ring-2 focus:ring-cyan-400"
           >
             Fermer la prévisualisation
           </button>

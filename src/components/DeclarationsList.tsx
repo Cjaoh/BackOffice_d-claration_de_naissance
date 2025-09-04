@@ -89,12 +89,14 @@ const DeclarationsList: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-6 bg-gray-100 flex flex-col max-w-7xl mx-auto">
-      <header className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-        <h1 className="text-3xl font-extrabold text-gray-900 select-none">Gestion des Déclarations</h1>
+    <div className="min-h-screen p-6 bg-slate-950 text-white flex flex-col max-w-7xl mx-auto">
+      <header className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 select-none">
+        <h1 className="text-3xl font-extrabold bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-300 bg-clip-text text-transparent">
+          Gestion des Déclarations
+        </h1>
         <button
           onClick={openAddForm}
-          className="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white py-2 px-5 rounded-lg shadow-md transition transform hover:-translate-y-1 hover:scale-105 duration-300"
+          className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white py-2 px-5 rounded-2xl shadow-lg transition transform hover:-translate-y-1 hover:scale-105 duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           aria-label="Ajouter une déclaration"
         >
           Ajouter une déclaration
@@ -106,32 +108,35 @@ const DeclarationsList: React.FC = () => {
         placeholder="Rechercher par nom, prénom, parents..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="mb-4 p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-300"
+        className="mb-4 p-3 rounded-lg border border-cyan-700 bg-slate-900 text-white placeholder-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition duration-300"
       />
 
-      <div className="overflow-x-auto bg-white rounded-lg shadow border border-gray-200">
+      <div className="overflow-x-auto bg-slate-800 rounded-2xl shadow-lg border border-cyan-700">
         {loading ? (
-          <div className="p-6 text-center text-gray-600 animate-pulse">Chargement...</div>
+          <div className="p-6 text-center text-cyan-400 animate-pulse">Chargement...</div>
         ) : error ? (
-          <div className="p-6 text-center text-red-600 font-semibold">{error}</div>
+          <div className="p-6 text-center text-red-500 font-semibold">{error}</div>
         ) : filteredDeclarations.length === 0 ? (
-          <div className="p-6 text-center text-gray-600">Aucune déclaration trouvée.</div>
+          <div className="p-6 text-center text-cyan-400">Aucune déclaration trouvée.</div>
         ) : (
-          <table className="min-w-full divide-y divide-gray-200 text-left">
-            <thead className="bg-gray-50 sticky top-0 z-10 shadow">
+          <table className="min-w-full divide-y divide-cyan-700 text-left">
+            <thead className="bg-slate-900 sticky top-0 z-10 shadow">
               <tr>
-                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider select-none">Nom</th>
-                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider select-none">Prénom</th>
-                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider select-none">Date Naissance</th>
-                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider select-none">Sexe</th>
-                <th className="px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider select-none">Actions</th>
+                {['Nom', 'Prénom', 'Date Naissance', 'Sexe', 'Actions'].map((heading) => (
+                  <th
+                    key={heading}
+                    className="px-6 py-3 text-xs font-semibold text-cyan-400 uppercase tracking-wider"
+                  >
+                    {heading}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-cyan-800">
               {filteredDeclarations.map((d) => (
                 <tr
                   key={d.id}
-                  className="hover:bg-teal-50 transition duration-300 ease-in-out cursor-pointer"
+                  className="hover:bg-cyan-900 transition duration-300 ease-in-out cursor-pointer"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">{d.nom || '-'}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{d.prenom || '-'}</td>
@@ -144,14 +149,14 @@ const DeclarationsList: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap flex space-x-3">
                     <button
                       onClick={() => openEditForm(d)}
-                      className="text-teal-700 hover:text-teal-900 font-semibold px-3 py-1 rounded-lg border border-teal-700 hover:border-teal-900 transition duration-300"
+                      className="text-cyan-400 hover:text-cyan-200 font-semibold px-3 py-1 rounded-lg border border-cyan-400 hover:border-cyan-200 transition duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
                       aria-label="Modifier"
                     >
                       Modifier
                     </button>
                     <button
                       onClick={() => handleDelete(d.id)}
-                      className="text-red-600 hover:text-red-800 font-semibold px-3 py-1 rounded-lg border border-red-600 hover:border-red-800 transition duration-300"
+                      className="text-red-500 hover:text-red-700 font-semibold px-3 py-1 rounded-lg border border-red-500 hover:border-red-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500"
                       aria-label="Supprimer"
                     >
                       Supprimer
@@ -165,10 +170,14 @@ const DeclarationsList: React.FC = () => {
       </div>
 
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-lg max-w-4xl w-full max-h-[90vh] overflow-auto p-8 animate-fade-in">
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50">
+          <div className="bg-slate-900 rounded-3xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-auto p-8 animate-fade-in">
             <DeclarationForm
-              declaration={selectedDeclaration ? { ...selectedDeclaration, parentsMaries: Boolean(selectedDeclaration.parentsMaries) } : undefined}
+              declaration={
+                selectedDeclaration
+                  ? { ...selectedDeclaration, parentsMaries: Boolean(selectedDeclaration.parentsMaries) }
+                  : undefined
+              }
               onClose={closeForm}
               onSave={onSave}
             />

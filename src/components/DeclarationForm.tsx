@@ -116,18 +116,18 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
-    if (typeof form.nom !== 'string' || !form.nom.trim()) newErrors.nom = 'Nom obligatoire';
-    if (typeof form.prenom !== 'string' || !form.prenom.trim()) newErrors.prenom = 'Prénom obligatoire';
-    if (typeof form.dateNaissance !== 'string' || !form.dateNaissance.trim()) newErrors.dateNaissance = 'Date de naissance obligatoire';
+    if (!form.nom.trim()) newErrors.nom = 'Nom obligatoire';
+    if (!form.prenom.trim()) newErrors.prenom = 'Prénom obligatoire';
+    if (!form.dateNaissance.trim()) newErrors.dateNaissance = 'Date de naissance obligatoire';
 
     if (form.parentsMaries) {
       if (!form.dateMariageParents) newErrors.dateMariageParents = 'Date de mariage obligatoire';
-      if (typeof form.lieuMariageParents !== 'string' || !form.lieuMariageParents.trim()) newErrors.lieuMariageParents = 'Lieu de mariage obligatoire';
-      if (typeof form.nomPere !== 'string' || !form.nomPere.trim()) newErrors.nomPere = 'Nom du père obligatoire';
-      if (typeof form.prenomPere !== 'string' || !form.prenomPere.trim()) newErrors.prenomPere = 'Prénom du père obligatoire';
+      if (!form.lieuMariageParents.trim()) newErrors.lieuMariageParents = 'Lieu de mariage obligatoire';
+      if (!form.nomPere.trim()) newErrors.nomPere = 'Nom du père obligatoire';
+      if (!form.prenomPere.trim()) newErrors.prenomPere = 'Prénom du père obligatoire';
     } else {
-      if (typeof form.nomMere !== 'string' || !form.nomMere.trim()) newErrors.nomMere = 'Nom de la mère obligatoire';
-      if (typeof form.prenomMere !== 'string' || !form.prenomMere.trim()) newErrors.prenomMere = 'Prénom de la mère obligatoire';
+      if (!form.nomMere.trim()) newErrors.nomMere = 'Nom de la mère obligatoire';
+      if (!form.prenomMere.trim()) newErrors.prenomMere = 'Prénom de la mère obligatoire';
     }
 
     ['pieceIdPere', 'pieceIdMere', 'pieceIdDeclarant'].forEach((key) => {
@@ -185,17 +185,21 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-teal-700">{declaration ? 'Modifier la déclaration' : 'Nouvelle déclaration'}</h2>
+    <div className="max-w-5xl mx-auto p-8 bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-lg text-white">
+      <h2 className="text-3xl font-extrabold bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-300 bg-clip-text text-transparent mb-8 select-none">
+        {declaration ? 'Modifier la déclaration' : 'Nouvelle déclaration'}
+      </h2>
 
-      <div className="flex border-b border-gray-300 mb-6 overflow-x-auto">
+      <div className="flex border-b border-cyan-700 mb-8 overflow-x-auto">
         {tabs.map((tab, i) => (
           <button
             key={tab}
             type="button"
             onClick={() => setCurrentTab(i)}
-            className={`py-2 px-6 whitespace-nowrap font-semibold transition ${
-              currentTab === i ? 'border-b-4 border-teal-600 text-teal-700' : 'text-gray-500 hover:text-teal-600'
+            className={`py-3 px-8 whitespace-nowrap font-semibold select-none transition-colors duration-300 ${
+              currentTab === i
+                ? 'border-b-4 border-teal-500 text-teal-400'
+                : 'text-cyan-300 hover:text-teal-400'
             }`}
           >
             {tab}
@@ -203,9 +207,9 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-8">
         {currentTab === 0 && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <InputField name="nom" label="Nom de l'enfant" required value={form.nom} onChange={handleChange} error={errors.nom} />
             <InputField name="prenom" label="Prénom de l'enfant" required value={form.prenom} onChange={handleChange} error={errors.prenom} />
             <InputField type="date" name="dateNaissance" label="Date de naissance" required value={form.dateNaissance} onChange={handleChange} error={errors.dateNaissance} />
@@ -225,7 +229,7 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
         )}
 
         {currentTab === 1 && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <MaritalStatusField parentsMaries={form.parentsMaries} onChange={handleChange} />
             {form.parentsMaries ? (
               <>
@@ -300,7 +304,7 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
         )}
 
         {currentTab === 2 && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <InputField name="nomDeclarant" label="Nom du déclarant" value={form.nomDeclarant} onChange={handleChange} />
             <InputField name="prenomDeclarant" label="Prénom du déclarant" value={form.prenomDeclarant} onChange={handleChange} />
             <InputField name="adresseDeclarant" label="Adresse du déclarant" value={form.adresseDeclarant} onChange={handleChange} />
@@ -310,7 +314,7 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
         )}
 
         {currentTab === 3 && (
-          <div className="space-y-4">
+          <div className="space-y-6">
             <InputField name="certificatAccouchement" label="Certificat d'accouchement" value={form.certificatAccouchement} onChange={handleChange} />
             <InputField name="livretFamille" label="Livret de famille" value={form.livretFamille} onChange={handleChange} />
             <InputField name="acteNaissPere" label="Acte de naissance du père" value={form.acteNaissPere} onChange={handleChange} />
@@ -320,19 +324,19 @@ const DeclarationForm: React.FC<DeclarationFormProps> = ({ declaration, onClose,
           </div>
         )}
 
-        <div className="flex justify-end gap-4 mt-8">
+        <div className="flex justify-end gap-6 mt-10">
           <button
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-6 py-2 border border-gray-300 rounded shadow hover:bg-gray-100 transition disabled:opacity-50"
+            className="px-8 py-3 border border-white/30 rounded-lg text-white hover:bg-white/10 transition disabled:opacity-50"
           >
             Annuler
           </button>
           <button
             type="submit"
             disabled={isSubmitting}
-            className="px-6 py-2 bg-teal-600 text-white rounded shadow hover:bg-teal-700 transition disabled:opacity-50"
+            className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white font-semibold rounded-lg shadow-lg transition disabled:opacity-50"
           >
             {isSubmitting ? 'Enregistrement...' : declaration ? 'Mettre à jour' : 'Enregistrer'}
           </button>
@@ -356,7 +360,7 @@ interface InputFieldProps {
 
 const InputField: React.FC<InputFieldProps> = ({ name, label, value, required = false, error, type = 'text', onChange }) => (
   <div>
-    <label className="block font-semibold mb-1" htmlFor={name}>
+    <label htmlFor={name} className="block font-semibold text-cyan-300 mb-1 select-none">
       {label} {required && <span className="text-red-500">*</span>}
     </label>
     <input
@@ -366,11 +370,11 @@ const InputField: React.FC<InputFieldProps> = ({ name, label, value, required = 
       value={value}
       onChange={onChange}
       required={required}
-      className={`w-full px-4 py-2 border rounded-md focus:outline-none transition ${
-        error ? 'border-red-500 focus:ring-2 focus:ring-red-400' : 'border-gray-300 focus:ring-teal-400'
+      className={`w-full px-4 py-2 rounded-md bg-white/5 border border-cyan-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition ${
+        error ? 'border-red-500 focus:ring-red-400' : ''
       }`}
     />
-    {error && <p className="text-red-500 mt-1 text-sm">{error}</p>}
+    {error && <p className="text-red-400 mt-1 text-sm select-none">{error}</p>}
   </div>
 );
 
@@ -384,7 +388,7 @@ interface SelectFieldProps {
 
 const SelectField: React.FC<SelectFieldProps> = ({ name, label, value, options, onChange }) => (
   <div>
-    <label className="block font-semibold mb-1" htmlFor={name}>
+    <label htmlFor={name} className="block font-semibold text-cyan-300 mb-1 select-none">
       {label}
     </label>
     <select
@@ -392,10 +396,10 @@ const SelectField: React.FC<SelectFieldProps> = ({ name, label, value, options, 
       name={name}
       value={value}
       onChange={onChange}
-      className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400 transition"
+      className="w-full px-4 py-2 rounded-md bg-white/5 border border-cyan-700 text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition"
     >
       {options.map((opt) => (
-        <option key={opt.value} value={opt.value}>
+        <option key={opt.value} value={opt.value} className="bg-slate-900 text-white">
           {opt.label}
         </option>
       ))}
@@ -409,26 +413,28 @@ interface MaritalStatusFieldProps {
 }
 
 const MaritalStatusField: React.FC<MaritalStatusFieldProps> = ({ parentsMaries, onChange }) => (
-  <div className="mb-4">
-    <label className="block font-semibold mb-2">Statut marital des parents</label>
-    <div className="flex gap-4">
-      <label className="flex items-center gap-2 cursor-pointer">
+  <div className="mb-6">
+    <label className="block font-semibold text-cyan-300 mb-3 select-none">Statut marital des parents</label>
+    <div className="flex gap-8">
+      <label className="flex items-center gap-3 cursor-pointer select-none">
         <input
           type="radio"
           name="parentsMaries"
           value="true"
           checked={parentsMaries === true}
           onChange={(e) => onChange(e as unknown as React.ChangeEvent<HTMLInputElement>)}
+          className="accent-cyan-400"
         />
         Mariés
       </label>
-      <label className="flex items-center gap-2 cursor-pointer">
+      <label className="flex items-center gap-3 cursor-pointer select-none">
         <input
           type="radio"
           name="parentsMaries"
           value="false"
           checked={parentsMaries === false}
           onChange={(e) => onChange(e as unknown as React.ChangeEvent<HTMLInputElement>)}
+          className="accent-cyan-400"
         />
         Non mariés
       </label>
@@ -437,5 +443,5 @@ const MaritalStatusField: React.FC<MaritalStatusFieldProps> = ({ parentsMaries, 
 );
 
 const SectionTitle: React.FC<{ title: string }> = ({ title }) => (
-  <h3 className="text-lg font-semibold text-teal-700 border-b border-teal-500 pb-1 mb-4">{title}</h3>
+  <h3 className="text-xl font-semibold text-teal-400 border-b border-teal-500 pb-2 mb-5 select-none">{title}</h3>
 );

@@ -65,18 +65,15 @@ const Settings: React.FC = () => {
     }
   }, []);
 
-  // Apply theme changes
   useEffect(() => {
     const applyTheme = () => {
       const { theme } = settings.appearance;
       const html = document.documentElement;
-      
       if (theme === 'dark') {
         html.classList.add('dark');
       } else if (theme === 'light') {
         html.classList.remove('dark');
       } else {
-        // System preference
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
           html.classList.add('dark');
         } else {
@@ -84,40 +81,30 @@ const Settings: React.FC = () => {
         }
       }
     };
-
     applyTheme();
-    
-    // Listen for system theme changes
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {
       if (settings.appearance.theme === 'system') {
         applyTheme();
       }
     };
-    
     mediaQuery.addEventListener('change', handleChange);
-    
     return () => {
       mediaQuery.removeEventListener('change', handleChange);
     };
-  }, [settings.appearance.theme, settings.appearance]);
+  }, [settings.appearance.theme]);
 
   const handleSave = async () => {
     setLoading(true);
     setSuccess(false);
-    
     try {
-      // Save settings to localStorage
       localStorage.setItem('appSettings', JSON.stringify(settings));
-      
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
       console.error('Error saving settings:', error);
-      // Handle error (show notification, etc.)
     } finally {
       setLoading(false);
     }
@@ -135,47 +122,43 @@ const Settings: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Paramètres</h2>
+
+      <div className="bg-white/10 dark:bg-slate-900/50 backdrop-blur-xl border border-white/20 rounded-3xl shadow-lg p-8 max-w-5xl mx-auto">
+        <h2 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-300 mb-8 select-none">
+          Paramètres
+        </h2>
         
-        {/* General Settings */}
-        <Card title="Paramètres généraux" className="mb-6">
+        {/* Paramètres généraux */}
+        <Card title="Paramètres généraux" className="mb-8 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-inner">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Nom de l'application
-              </label>
+              <label className="block text-sm font-medium text-cyan-300 mb-2">Nom de l'application</label>
               <Input
                 type="text"
                 value={settings.general.appName}
                 onChange={(value) => handleInputChange('general', 'appName', value)}
                 placeholder="Nom de l'application"
+                className="bg-transparent border border-cyan-700 text-white focus:ring-cyan-500 focus:border-cyan-500"
               />
             </div>
-            
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Langue
-              </label>
+              <label className="block text-sm font-medium text-cyan-300 mb-2">Langue</label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[#4CAF9E] focus:border-[#4CAF9E] dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 bg-transparent border border-cyan-700 rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
                 value={settings.general.language}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleInputChange('general', 'language', e.target.value)}
+                onChange={(e) => handleInputChange('general', 'language', e.target.value)}
               >
                 <option value="fr">Français</option>
                 <option value="en">Anglais</option>
                 <option value="mg">Malagasy</option>
               </select>
             </div>
-            
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Fuseau horaire
-              </label>
+              <label className="block text-sm font-medium text-cyan-300 mb-2">Fuseau horaire</label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[#4CAF9E] focus:border-[#4CAF9E] dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 bg-transparent border border-cyan-700 rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
                 value={settings.general.timezone}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleInputChange('general', 'timezone', e.target.value)}
+                onChange={(e) => handleInputChange('general', 'timezone', e.target.value)}
               >
                 <option value="Indian/Antananarivo">Antananarivo (GMT+3)</option>
                 <option value="Europe/Paris">Paris (GMT+2)</option>
@@ -184,86 +167,65 @@ const Settings: React.FC = () => {
             </div>
           </div>
         </Card>
-        
-        {/* Notification Settings */}
-        <Card title="Notifications" className="mb-6">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-medium text-gray-900 dark:text-white">Notifications par email</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Recevoir des notifications par email</p>
-              </div>
-              <button
-                type="button"
-                className={`${
-                  settings.notifications.email ? 'bg-[#4CAF9E]' : 'bg-gray-200 dark:bg-gray-600'
-                } relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF9E]`}
-                onClick={() => handleInputChange('notifications', 'email', !settings.notifications.email)}
-              >
-                <span
-                  className={`${
-                    settings.notifications.email ? 'translate-x-5' : 'translate-x-0'
-                  } pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}
-                />
-              </button>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-medium text-gray-900 dark:text-white">Notifications push</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Recevoir des notifications push</p>
-              </div>
-              <button
-                type="button"
-                className={`${
-                  settings.notifications.push ? 'bg-[#4CAF9E]' : 'bg-gray-200 dark:bg-gray-600'
-                } relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF9E]`}
-                onClick={() => handleInputChange('notifications', 'push', !settings.notifications.push)}
-              >
-                <span
-                  className={`${
-                    settings.notifications.push ? 'translate-x-5' : 'translate-x-0'
-                  } pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}
-                />
-              </button>
-            </div>
-            
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-sm font-medium text-gray-900 dark:text-white">Notifications SMS</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Recevoir des notifications par SMS</p>
-              </div>
-              <button
-                type="button"
-                className={`${
-                  settings.notifications.sms ? 'bg-[#4CAF9E]' : 'bg-gray-200 dark:bg-gray-600'
-                } relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF9E]`}
-                onClick={() => handleInputChange('notifications', 'sms', !settings.notifications.sms)}
-              >
-                <span
-                  className={`${
-                    settings.notifications.sms ? 'translate-x-5' : 'translate-x-0'
-                  } pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}
-                />
-              </button>
-            </div>
+
+        {/* Notifications */}
+        <Card title="Notifications" className="mb-8 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-inner">
+          <div className="space-y-6">
+            {['email', 'push', 'sms'].map((type) => {
+              const enabled = settings.notifications[type as keyof typeof settings.notifications];
+              const labelMap = {
+                email: 'Notifications par email',
+                push: 'Notifications push',
+                sms: 'Notifications SMS',
+              };
+              const descMap = {
+                email: 'Recevoir des notifications par email',
+                push: 'Recevoir des notifications push',
+                sms: 'Recevoir des notifications par SMS',
+              };
+              return (
+                <div key={type} className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-sm font-semibold text-white">{labelMap[type as keyof typeof labelMap]}</h3>
+                    <p className="text-sm text-cyan-300">{descMap[type as keyof typeof descMap]}</p>
+                  </div>
+                  <button
+                    type="button"
+                    className={`${
+                      enabled ? 'bg-cyan-500' : 'bg-gray-700 dark:bg-gray-600'
+                    } relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400`}
+                    onClick={() => handleInputChange('notifications', type, !enabled)}
+                    aria-pressed={enabled}
+                    aria-label={`${enabled ? 'Désactiver' : 'Activer'} ${labelMap[type as keyof typeof labelMap]}`}
+                  >
+                    <span
+                      className={`${
+                        enabled ? 'translate-x-5' : 'translate-x-0'
+                      } pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200`}
+                    />
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </Card>
-        
-        {/* Security Settings */}
-        <Card title="Sécurité" className="mb-6">
-          <div className="space-y-4">
+
+        {/* Sécurité */}
+        <Card title="Sécurité" className="mb-8 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-inner">
+          <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-medium text-gray-900 dark:text-white">Authentification à deux facteurs</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Ajouter une couche de sécurité supplémentaire</p>
+                <h3 className="text-sm font-semibold text-white">Authentification à deux facteurs</h3>
+                <p className="text-sm text-cyan-300">Ajouter une couche de sécurité supplémentaire</p>
               </div>
               <button
                 type="button"
                 className={`${
-                  settings.security.twoFactorAuth ? 'bg-[#4CAF9E]' : 'bg-gray-200 dark:bg-gray-600'
-                } relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF9E]`}
+                  settings.security.twoFactorAuth ? 'bg-cyan-500' : 'bg-gray-700 dark:bg-gray-600'
+                } relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-400`}
                 onClick={() => handleInputChange('security', 'twoFactorAuth', !settings.security.twoFactorAuth)}
+                aria-pressed={settings.security.twoFactorAuth}
+                aria-label={`${settings.security.twoFactorAuth ? 'Désactiver' : 'Activer'} authentification à deux facteurs`}
               >
                 <span
                   className={`${
@@ -272,48 +234,41 @@ const Settings: React.FC = () => {
                 />
               </button>
             </div>
-            
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Délai d'expiration de session (minutes)
-              </label>
+              <label className="block text-sm font-medium text-cyan-300 mb-2">Délai d'expiration de session (minutes)</label>
               <Input
                 type="number"
-                min="1"
-                max="120"
+                min={1}
+                max={120}
                 value={settings.security.sessionTimeout.toString()}
                 onChange={(value) => handleInputChange('security', 'sessionTimeout', parseInt(value) || 0)}
+                className="bg-transparent border border-cyan-700 text-white focus:ring-cyan-500 focus:border-cyan-500"
               />
             </div>
           </div>
         </Card>
-        
-        {/* Appearance Settings */}
-        <Card title="Apparence">
+
+        {/* Apparence */}
+        <Card title="Apparence" className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl shadow-inner">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Thème
-              </label>
+              <label className="block text-sm font-medium text-cyan-300 mb-2">Thème</label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[#4CAF9E] focus:border-[#4CAF9E] dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 bg-transparent border border-cyan-700 rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
                 value={settings.appearance.theme}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleInputChange('appearance', 'theme', e.target.value)}
+                onChange={(e) => handleInputChange('appearance', 'theme', e.target.value)}
               >
                 <option value="light">Clair</option>
                 <option value="dark">Sombre</option>
                 <option value="system">Système</option>
               </select>
             </div>
-            
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Taille du texte
-              </label>
+              <label className="block text-sm font-medium text-cyan-300 mb-2">Taille du texte</label>
               <select
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[#4CAF9E] focus:border-[#4CAF9E] dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 bg-transparent border border-cyan-700 rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
                 value={settings.appearance.fontSize}
-                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => handleInputChange('appearance', 'fontSize', e.target.value)}
+                onChange={(e) => handleInputChange('appearance', 'fontSize', e.target.value)}
               >
                 <option value="small">Petit</option>
                 <option value="medium">Moyen</option>
@@ -322,19 +277,19 @@ const Settings: React.FC = () => {
             </div>
           </div>
         </Card>
-        
-        <div className="mt-6 flex justify-end">
+
+        <div className="mt-8 flex justify-end">
           <Button
             onClick={handleSave}
             disabled={loading}
-            className="bg-[#4CAF9E] hover:bg-[#3d8b7f] text-white"
+            className="bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-2xl py-3 px-6 shadow-lg transition duration-300 transform hover:scale-[1.03] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? 'Enregistrement...' : 'Enregistrer les modifications'}
           </Button>
         </div>
-        
+
         {success && (
-          <div className="mt-4 p-4 bg-green-50 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg">
+          <div className="mt-6 p-4 rounded-xl bg-green-900/60 text-green-300 font-semibold select-none">
             Les paramètres ont été enregistrés avec succès !
           </div>
         )}
