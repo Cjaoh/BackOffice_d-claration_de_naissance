@@ -13,13 +13,17 @@ import {
   deleteUser as deleteAuthUser,
   updatePassword as updateAuthPassword
 } from 'firebase/auth';
+import { getFirebaseErrorMessage } from "../utils/firebaseError";
+
+export type UserRole = 'admin' | 'user' | 'moderator';
+export type UserStatus = 'active' | 'inactive' | 'suspended';
 
 export interface User {
   uid: string;
   email: string;
   displayName: string;
-  role: 'admin' | 'user' | 'moderator';
-  status: 'active' | 'inactive' | 'suspended';
+  role: UserRole;
+  status: UserStatus;
   lastLogin: Date | null;
   createdAt: Date;
 }
@@ -27,9 +31,9 @@ export interface User {
 export interface UserFormData {
   email: string;
   displayName: string;
-  role: 'admin' | 'user' | 'moderator';
+  role: UserRole;
   password: string;
-  status: 'active' | 'inactive' | 'suspended';
+  status: UserStatus;
 }
 
 export const userService = {
@@ -51,8 +55,8 @@ export const userService = {
         } as User;
       });
     } catch (error) {
-      console.error('Error fetching users:', error);
-      throw new Error('Failed to fetch users');
+      console.error(error);
+      throw new Error(getFirebaseErrorMessage(error));
     }
   },
 
@@ -78,7 +82,7 @@ export const userService = {
       } as User;
     } catch (error) {
       console.error('Error fetching user:', error);
-      throw new Error('Failed to fetch user');
+      throw new Error(getFirebaseErrorMessage(error));
     }
   },
 
@@ -107,7 +111,7 @@ export const userService = {
       return { uid: userCredential.user.uid, ...userDoc } as User;
     } catch (error) {
       console.error('Error creating user:', error);
-      throw new Error('Failed to create user');
+      throw new Error(getFirebaseErrorMessage(error));
     }
   },
 
@@ -125,7 +129,7 @@ export const userService = {
       await updateDoc(userRef, updateData);
     } catch (error) {
       console.error('Error updating user:', error);
-      throw new Error('Failed to update user');
+      throw new Error(getFirebaseErrorMessage(error));
     }
   },
 
@@ -139,7 +143,7 @@ export const userService = {
       await updateAuthPassword(user, newPassword);
     } catch (error) {
       console.error('Error updating password:', error);
-      throw new Error('Failed to update password');
+      throw new Error(getFirebaseErrorMessage(error));
     }
   },
 
@@ -159,7 +163,7 @@ export const userService = {
       await deleteDoc(userRef);
     } catch (error) {
       console.error('Error deleting user:', error);
-      throw new Error('Failed to delete user');
+      throw new Error(getFirebaseErrorMessage(error));
     }
   }
 };

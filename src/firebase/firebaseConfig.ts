@@ -4,15 +4,13 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAtAMgS6Om-XRSROxu86PrnIV7XlXGYCkI",
-  authDomain: "etatcivil-d7daa.firebaseapp.com",
-  projectId: "etatcivil-d7daa",
-  storageBucket: "etatcivil-d7daa.appspot.com", // <-- Correction ici
-  messagingSenderId: "95444634348",
-  appId: "1:95444634348:web:404b92382ca07dfc0cf3c9",
-  measurementId: "G-811JYW9VJK"
+  apiKey: "AIzaSyCWuVaKKj-hJjOpQJDMiB9ardxceQhWJvA",
+  authDomain: "etatcivil-cjaoh.firebaseapp.com",
+  projectId: "etatcivil-cjaoh",
+  storageBucket: "etatcivil-cjaoh.firebasestorage.app",
+  messagingSenderId: "612239957830",
+  appId: "1:612239957830:web:ae2178317a48a89f440f47"
 };
-
 
 const app = initializeApp(firebaseConfig);
 

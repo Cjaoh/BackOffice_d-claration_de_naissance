@@ -1,8 +1,9 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./contexts/AuthContext";
 import AuthProvider from "./contexts/AuthProvider";
 import Layout from "./components/layout/Layout";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import RoleGuard from "./components/auth/RoleGuard";
 
 // Route-level code splitting
 const Dashboard = lazy(() => import("./components/dashboard/Dashboard"));
@@ -15,16 +16,6 @@ const Register = lazy(() => import("./components/Register"));
 const Settings = lazy(() => import("./components/settings/Settings"));
 const UserManagement = lazy(() => import("./components/users/UserManagement"));
 
-
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user } = useAuth();
-  
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-  
-  return <>{children}</>;
-};
 
 // Composant principal de l'application
 const AppContent: React.FC = () => {
@@ -79,13 +70,18 @@ const AppContent: React.FC = () => {
           </ProtectedRoute>
         } />
         
-        <Route path="/users" element={
-          <ProtectedRoute>
-            <Layout title="Gestion des utilisateurs">
-              <UserManagement />
-            </Layout>
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+    <RoleGuard allowedRoles={['admin']}>
+        <Layout title="Gestion des utilisateurs">
+            <UserManagement />
+        </Layout>
+    </RoleGuard>
+</ProtectedRoute>
+          }
+        />
         
         <Route path="/settings" element={
           <ProtectedRoute>
