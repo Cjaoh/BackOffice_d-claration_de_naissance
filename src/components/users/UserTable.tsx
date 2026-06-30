@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import type { User } from '../../services/userService';
+import type { User } from '../../types';
 import UserBadge from './UserBadge';
 
 interface UserTableProps {

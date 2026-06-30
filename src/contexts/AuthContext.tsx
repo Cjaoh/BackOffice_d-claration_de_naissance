@@ -1,8 +1,10 @@
 import { createContext, useContext } from "react";
-import type { User } from "firebase/auth";
+import type {
+  FirebaseUser,
+  UserRole,
+  UserStatus,
+} from "../types";
 
-export type UserRole = "admin" | "moderator" | "user" | null;
-export type UserStatus = "active" | "inactive" | "suspended" | null;
 
 export interface UserProfile {
   uid: string;
@@ -14,7 +16,7 @@ export interface UserProfile {
 }
 
 export interface AuthContextType {
-  user: User | null;
+  user: FirebaseUser | null;
   profile: UserProfile | null;
   loading: boolean;
   signOut: () => Promise<void>;

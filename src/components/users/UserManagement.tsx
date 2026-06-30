@@ -11,7 +11,7 @@ import type {
     UserFormData,
     UserRole,
     UserStatus,
-} from '../../services/userService';
+} from '../../types';
 
 import UserFilters from './UserFilters';
 import UserTable from './UserTable';

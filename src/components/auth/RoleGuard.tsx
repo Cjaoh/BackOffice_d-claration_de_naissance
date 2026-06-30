@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { ROUTES } from '../../constants/routes';
-import type { UserRole } from '../../services/userService';
+import type { UserRole } from '../../types';
 
 interface RoleGuardProps {
     children: React.ReactNode;

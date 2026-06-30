@@ -1,5 +1,5 @@
 import React from 'react';
-import type { UserRole, UserStatus } from '../../services/userService';
+import type { UserRole, UserStatus } from '../../types';
 
 interface UserBadgeProps {
     type: 'role' | 'status';

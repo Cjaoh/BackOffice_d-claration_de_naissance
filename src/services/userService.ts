@@ -15,26 +15,7 @@ import {
 } from 'firebase/auth';
 import { getFirebaseErrorMessage } from "../utils/firebaseError";
 
-export type UserRole = 'admin' | 'user' | 'moderator';
-export type UserStatus = 'active' | 'inactive' | 'suspended';
-
-export interface User {
-  uid: string;
-  email: string;
-  displayName: string;
-  role: UserRole;
-  status: UserStatus;
-  lastLogin: Date | null;
-  createdAt: Date;
-}
-
-export interface UserFormData {
-  email: string;
-  displayName: string;
-  role: UserRole;
-  password: string;
-  status: UserStatus;
-}
+import type { User, UserFormData } from '../types';
 
 export const userService = {
   // Get all users

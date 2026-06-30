@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from '../ui/Input';
-import type { UserRole, UserStatus } from '../../services/userService';
+import type { UserRole, UserStatus } from '../../types';
 
 interface UserFiltersProps {
     searchTerm: string;

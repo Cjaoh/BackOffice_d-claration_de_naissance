@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { userService } from "../services/userService";
-import type { User, UserFormData } from "../services/userService";
+import type { User, UserFormData } from "../types";
 
 export function useUsers() {
     const [users, setUsers] = useState<User[]>([]);

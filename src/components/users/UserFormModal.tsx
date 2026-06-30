@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import type { User, UserFormData } from '../../services/userService';
+import type { User, UserFormData } from '../../types';
 
 type ModalFormValues = Partial<UserFormData> & {
     uid?: string;
