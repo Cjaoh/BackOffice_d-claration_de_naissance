@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import bImage from "../assets/b.png";
+import { ROUTES } from "../constants/routes";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ const Register: React.FC = () => {
     try {
       await createUserWithEmailAndPassword(auth, email.trim(), password);
       alert("Compte créé avec succès !");
-      navigate("/login");
+      navigate(ROUTES.LOGIN);
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error ? err.message : "Erreur lors de la création du compte";
@@ -209,7 +210,7 @@ const Register: React.FC = () => {
             <div className="mt-8 text-center">
               <p className="text-slate-400 mb-4">Vous avez déjà un compte?</p>
               <button
-                onClick={() => navigate("/login")}
+                onClick={() => navigate(ROUTES.LOGIN)}
                 className="text-cyan-400 hover:text-cyan-300 font-semibold transition-all duration-300 hover:scale-105 underline decoration-cyan-400/50 hover:decoration-cyan-300"
               >
                 Se connecter

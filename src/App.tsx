@@ -4,6 +4,7 @@ import AuthProvider from "./contexts/AuthProvider";
 import Layout from "./components/layout/Layout";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import RoleGuard from "./components/auth/RoleGuard";
+import { ROUTES } from "./constants/routes";
 
 // Route-level code splitting
 const Dashboard = lazy(() => import("./components/dashboard/Dashboard"));
@@ -24,11 +25,11 @@ const AppContent: React.FC = () => {
       <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-white">Chargement...</div>}>
         <Routes>
         {/* Routes publiques */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path={ROUTES.LOGIN} element={<Login />} />
+        <Route path={ROUTES.REGISTER} element={<Register />} />
         
         {/* Routes protégées */}
-        <Route path="/" element={
+        <Route path={ROUTES.HOME} element={
           <ProtectedRoute>
             <Layout title="Tableau de bord">
               <Dashboard />
@@ -36,7 +37,7 @@ const AppContent: React.FC = () => {
           </ProtectedRoute>
         } />
         
-        <Route path="/declarations" element={
+        <Route path={ROUTES.DECLARATIONS} element={
           <ProtectedRoute>
             <Layout title="Déclarations">
               <DeclarationsList />
@@ -44,7 +45,7 @@ const AppContent: React.FC = () => {
           </ProtectedRoute>
         } />
         
-        <Route path="/declarations/new" element={
+        <Route path={ROUTES.NEW_DECLARATION} element={
           <ProtectedRoute>
             <Layout title="Nouvelle déclaration">
               <div className="max-w-4xl mx-auto">
@@ -54,7 +55,7 @@ const AppContent: React.FC = () => {
           </ProtectedRoute>
         } />
         
-        <Route path="/pdf-view" element={
+        <Route path={ROUTES.PDF_VIEW} element={
           <ProtectedRoute>
             <Layout title="Visualiser PDF">
               <DeclarationsPdfView />
@@ -62,7 +63,7 @@ const AppContent: React.FC = () => {
           </ProtectedRoute>
         } />
         
-        <Route path="/statistics" element={
+        <Route path={ROUTES.STATISTICS} element={
           <ProtectedRoute>
             <Layout title="Statistiques">
               <Statistics />
@@ -71,7 +72,7 @@ const AppContent: React.FC = () => {
         } />
         
         <Route
-          path="/users"
+          path={ROUTES.USERS}
           element={
             <ProtectedRoute>
     <RoleGuard allowedRoles={['admin']}>
@@ -83,7 +84,7 @@ const AppContent: React.FC = () => {
           }
         />
         
-        <Route path="/settings" element={
+        <Route path={ROUTES.SETTINGS} element={
           <ProtectedRoute>
             <Layout title="Paramètres">
               <Settings />
@@ -92,7 +93,7 @@ const AppContent: React.FC = () => {
         } />
         
         {/* Redirection par défaut */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
         </Routes>
       </Suspense>
     </Router>

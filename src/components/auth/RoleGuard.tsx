@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { ROUTES } from '../../constants/routes';
 import type { UserRole } from '../../services/userService';
 
 interface RoleGuardProps {
@@ -12,7 +13,7 @@ interface RoleGuardProps {
 const RoleGuard: React.FC<RoleGuardProps> = ({
     children,
     allowedRoles,
-    fallbackPath = '/',
+    fallbackPath = ROUTES.HOME,
 }) => {
     const { user, profile, loading } = useAuth();
 
@@ -25,7 +26,7 @@ const RoleGuard: React.FC<RoleGuardProps> = ({
     }
 
     if (!user || !profile) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to={ROUTES.LOGIN} replace />;
     }
 
     const role = profile.role;

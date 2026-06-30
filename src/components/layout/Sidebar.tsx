@@ -13,6 +13,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 import { useAuth } from "../../contexts/AuthContext";
+import { ROUTES } from "../../constants/routes";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -57,31 +58,31 @@ const Sidebar: React.FC<SidebarProps> = ({
             {
                 name: "Tableau de bord",
                 icon: HomeIcon,
-                path: "/",
+                path: ROUTES.HOME,
                 color: "from-cyan-500 to-teal-500",
             },
             {
                 name: "Déclarations",
                 icon: DocumentTextIcon,
-                path: "/declarations",
+                path: ROUTES.DECLARATIONS,
                 color: "from-cyan-500 to-teal-500",
             },
             {
                 name: "Nouvelle déclaration",
                 icon: PlusIcon,
-                path: "/declarations/new",
+                path: ROUTES.NEW_DECLARATION,
                 color: "from-cyan-500 to-teal-500",
             },
             {
                 name: "Visualiser PDF",
                 icon: EyeIcon,
-                path: "/pdf-view",
+                path: ROUTES.PDF_VIEW,
                 color: "from-cyan-500 to-teal-500",
             },
             {
                 name: "Statistiques",
                 icon: ChartBarIcon,
-                path: "/statistics",
+                path: ROUTES.STATISTICS,
                 color: "from-cyan-500 to-teal-500",
             },
         ];
@@ -93,7 +94,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             items.push({
                 name: "Utilisateurs",
                 icon: UserGroupIcon,
-                path: "/users",
+                path: ROUTES.USERS,
                 color: "from-cyan-500 to-teal-500",
             });
         }
@@ -102,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             items.push({
                 name: "Paramètres",
                 icon: CogIcon,
-                path: "/settings",
+                path: ROUTES.SETTINGS,
                 color: "from-cyan-500 to-teal-500",
             });
         }
@@ -113,7 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     const handleLogout = useCallback(async (): Promise<void> => {
         try {
             await signOut();
-            navigate("/login", {
+            navigate(ROUTES.LOGIN, {
                 replace: true,
             });
         } catch (error) {

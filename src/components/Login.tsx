@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import bImage from "../assets/b.png";
+import { ROUTES } from "../constants/routes";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -19,7 +20,7 @@ const Login: React.FC = () => {
       setError("");
       try {
         await signInWithEmailAndPassword(auth, email.trim(), password);
-        navigate("/");
+        navigate(ROUTES.HOME);
       } catch (err: unknown) {
         const errorMessage =
           err instanceof Error ? err.message : "Erreur lors de la connexion";
@@ -166,7 +167,7 @@ const Login: React.FC = () => {
             <div className="mt-8 text-center">
               <p className="text-slate-400 mb-4">Pas encore de compte?</p>
               <button
-                onClick={() => navigate("/register")}
+                onClick={() => navigate(ROUTES.REGISTER)}
                 className="text-cyan-400 hover:text-cyan-300 font-semibold transition-all duration-300 hover:scale-105 underline decoration-cyan-400/50 hover:decoration-cyan-300"
               >
                 Créer un compte
