@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { User, UserFormData } from '../../types';
+import Modal from "../common/Modal";
 
 type ModalFormValues = Partial<UserFormData> & {
     uid?: string;
@@ -147,18 +148,18 @@ const UserFormModal: React.FC<UserFormModalProps> = ({
             if (!validateForm()) return;
 
             try {
-    setIsSubmitting(true);
+                setIsSubmitting(true);
 
-    await onSubmit({
-        ...formData,
-        email: formData.email?.trim(),
-        displayName: formData.displayName?.trim(),
-    });
-} catch (error) {
-    console.error(error);
-} finally {
-    setIsSubmitting(false);
-}
+                await onSubmit({
+                    ...formData,
+                    email: formData.email?.trim(),
+                    displayName: formData.displayName?.trim(),
+                });
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsSubmitting(false);
+            }
         },
         [
             formData,
@@ -170,182 +171,184 @@ const UserFormModal: React.FC<UserFormModalProps> = ({
 
     if (!isOpen) return null;
 
-return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4">
-        <div className="w-full max-w-lg rounded-2xl bg-white text-black shadow-2xl">
+    return (
+        <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            maxWidth="md"
+            closeOnOverlay={!isSubmitting}
+            closeOnEscape={!isSubmitting}
+        >
+            <div className="overflow-hidden rounded-2xl bg-white text-black">
+                {/* Header */}
+                <div className="border-b px-6 py-4">
+                    <h2 className="text-xl font-semibold">
+                        {isCreateMode
+                            ? 'Créer un utilisateur'
+                            : 'Modifier un utilisateur'}
+                    </h2>
 
-            {/* Header */}
-            <div className="border-b px-6 py-4">
-                <h2 className="text-xl font-semibold">
-                    {isCreateMode
-                        ? 'Créer un utilisateur'
-                        : 'Modifier un utilisateur'}
-                </h2>
-
-                <p className="mt-1 text-sm text-gray-500">
-                    {isCreateMode
-                        ? 'Remplissez les informations du nouvel utilisateur.'
-                        : "Modifiez les informations de l'utilisateur."}
-                </p>
-            </div>
-
-            <form
-                onSubmit={handleSubmit}
-                className="space-y-5 p-6"
-                noValidate
-            >
-
-                {/* Nom */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">
-                        Nom complet
-                    </label>
-
-                    <input
-                        type="text"
-                        name="displayName"
-                        value={formData.displayName ?? ''}
-                        onChange={handleChange}
-                        autoComplete="name"
-                        className={`w-full rounded-lg border px-3 py-2 outline-none transition
-                        ${
-                            errors.displayName
-                                ? 'border-red-500 focus:ring-2 focus:ring-red-300'
-                                : 'border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200'
-                        }`}
-                    />
-
-                    {errors.displayName && (
-                        <p className="mt-1 text-sm text-red-600">
-                            {errors.displayName}
-                        </p>
-                    )}
+                    <p className="mt-1 text-sm text-gray-500">
+                        {isCreateMode
+                            ? 'Remplissez les informations du nouvel utilisateur.'
+                            : "Modifiez les informations de l'utilisateur."}
+                    </p>
                 </div>
 
-                {/* Email */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">
-                        Adresse email
-                    </label>
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-5 p-6"
+                    noValidate
+                >
 
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email ?? ''}
-                        onChange={handleChange}
-                        autoComplete="email"
-                        className={`w-full rounded-lg border px-3 py-2 outline-none transition
-                        ${
-                            errors.email
-                                ? 'border-red-500 focus:ring-2 focus:ring-red-300'
-                                : 'border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200'
-                        }`}
-                    />
-
-                    {errors.email && (
-                        <p className="mt-1 text-sm text-red-600">
-                            {errors.email}
-                        </p>
-                    )}
-                </div>
-
-                {/* Role */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">
-                        Rôle
-                    </label>
-
-                    <select
-                        name="role"
-                        value={formData.role}
-                        onChange={handleChange}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
-                    >
-                        <option value="admin">Administrateur</option>
-                        <option value="moderator">Modérateur</option>
-                        <option value="user">Utilisateur</option>
-                    </select>
-                </div>
-
-                {/* Statut */}
-                <div>
-                    <label className="mb-1 block text-sm font-medium">
-                        Statut
-                    </label>
-
-                    <select
-                        name="status"
-                        value={formData.status}
-                        onChange={handleChange}
-                        className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
-                    >
-                        <option value="active">Actif</option>
-                        <option value="inactive">Inactif</option>
-                        <option value="suspended">Suspendu</option>
-                    </select>
-                </div>
-
-                {/* Mot de passe */}
-                {isCreateMode && (
+                    {/* Nom */}
                     <div>
                         <label className="mb-1 block text-sm font-medium">
-                            Mot de passe
+                            Nom complet
                         </label>
 
                         <input
-                            type="password"
-                            name="password"
-                            value={formData.password ?? ''}
+                            type="text"
+                            name="displayName"
+                            value={formData.displayName ?? ''}
                             onChange={handleChange}
-                            autoComplete="new-password"
+                            autoComplete="name"
                             className={`w-full rounded-lg border px-3 py-2 outline-none transition
-                            ${
-                                errors.password
+                        ${errors.displayName
                                     ? 'border-red-500 focus:ring-2 focus:ring-red-300'
                                     : 'border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200'
-                            }`}
+                                }`}
                         />
 
-                        {errors.password && (
+                        {errors.displayName && (
                             <p className="mt-1 text-sm text-red-600">
-                                {errors.password}
+                                {errors.displayName}
                             </p>
                         )}
                     </div>
-                )}
 
-                {/* Footer */}
-                <div className="flex justify-end gap-3 border-t pt-5">
+                    {/* Email */}
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Adresse email
+                        </label>
 
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        disabled={isSubmitting}
-                        className="rounded-lg bg-gray-200 px-5 py-2 font-medium transition hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        Annuler
-                    </button>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email ?? ''}
+                            onChange={handleChange}
+                            autoComplete="email"
+                            className={`w-full rounded-lg border px-3 py-2 outline-none transition
+                        ${errors.email
+                                    ? 'border-red-500 focus:ring-2 focus:ring-red-300'
+                                    : 'border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200'
+                                }`}
+                        />
 
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="rounded-lg bg-cyan-600 px-5 py-2 font-medium text-white transition hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        {isSubmitting
-                            ? isCreateMode
-                                ? 'Création...'
-                                : 'Modification...'
-                            : isCreateMode
-                            ? 'Créer'
-                            : 'Enregistrer'}
-                    </button>
+                        {errors.email && (
+                            <p className="mt-1 text-sm text-red-600">
+                                {errors.email}
+                            </p>
+                        )}
+                    </div>
 
-                </div>
+                    {/* Role */}
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Rôle
+                        </label>
 
-            </form>
-        </div>
-    </div>
-);
+                        <select
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+                        >
+                            <option value="admin">Administrateur</option>
+                            <option value="moderator">Modérateur</option>
+                            <option value="user">Utilisateur</option>
+                        </select>
+                    </div>
+
+                    {/* Statut */}
+                    <div>
+                        <label className="mb-1 block text-sm font-medium">
+                            Statut
+                        </label>
+
+                        <select
+                            name="status"
+                            value={formData.status}
+                            onChange={handleChange}
+                            className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200"
+                        >
+                            <option value="active">Actif</option>
+                            <option value="inactive">Inactif</option>
+                            <option value="suspended">Suspendu</option>
+                        </select>
+                    </div>
+
+                    {/* Mot de passe */}
+                    {isCreateMode && (
+                        <div>
+                            <label className="mb-1 block text-sm font-medium">
+                                Mot de passe
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                value={formData.password ?? ''}
+                                onChange={handleChange}
+                                autoComplete="new-password"
+                                className={`w-full rounded-lg border px-3 py-2 outline-none transition
+                            ${errors.password
+                                        ? 'border-red-500 focus:ring-2 focus:ring-red-300'
+                                        : 'border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-200'
+                                    }`}
+                            />
+
+                            {errors.password && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {errors.password}
+                                </p>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Footer */}
+                    <div className="flex justify-end gap-3 border-t pt-5">
+
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            disabled={isSubmitting}
+                            className="rounded-lg bg-gray-200 px-5 py-2 font-medium transition hover:bg-gray-300 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            Annuler
+                        </button>
+
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="rounded-lg bg-cyan-600 px-5 py-2 font-medium text-white transition hover:bg-cyan-700 disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                            {isSubmitting
+                                ? isCreateMode
+                                    ? 'Création...'
+                                    : 'Modification...'
+                                : isCreateMode
+                                    ? 'Créer'
+                                    : 'Enregistrer'}
+                        </button>
+
+                    </div>
+
+                </form>
+            </div>
+        </Modal>
+    );
 
 };
 
